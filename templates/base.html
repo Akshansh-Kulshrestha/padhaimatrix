@@ -1,0 +1,257 @@
+<!doctype html>
+{% load static %}
+<html data-bs-theme="dark">
+  <head>
+    <title>Padhai Matrix</title>
+    <link rel="icon" href="{% static 'assets/image/logo2.png'%}" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css'%}" />
+    <link rel="stylesheet" href="{% static 'assets/css/practice.css'%}" />
+    <link rel="stylesheet" href="{% static 'assets/css/tutorials.css'%}" />
+    {% block extra_css %}{% endblock extra_css %}
+
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark black-navbar fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="{% static 'assets/image/logo2.png'%}" alt="Logo" class="nav-logo" />
+          PadhaiMatrix
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mynavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:edtech_home'%}">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                >Tutorials</a
+              >
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="tutorials.html">All Techie</a></li>
+                <li>
+                  <a class="dropdown-item" href="tutorials-list.html">University Notes</a>
+                </li>
+                <li><a class="dropdown-item" href="#">Softwares</a></li>
+              </ul>
+            </li>
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+    Courses
+  </a>
+
+  <ul class="dropdown-menu">
+
+    {% for course in nav_courses %}
+      <li class="course-item">
+
+        <!-- Clickable course -->
+        <a href="#" class="dropdown-item course-toggle">
+          {{ course.name }} 
+        </a>
+
+        <!-- Hidden specialization -->
+        <ul class="sub-menu">
+
+          {% for spec in course.specializations.all %}
+            <li>
+              <a class="dropdown-item"
+                 href="{% url 'specialization_detail' spec.id %}">
+                {{ spec.name }}
+              </a>
+            </li>
+          {% endfor %}
+
+        </ul>
+
+      </li>
+    {% endfor %}
+
+  </ul>
+</li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                >Practice</a
+              >
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="practice.html">Daily Problems</a></li>
+                <li>
+                  <a class="dropdown-item" href="practice-list.html"
+                    >Time Bound Problems</a
+                  >
+                </li>
+                <li><a class="dropdown-item" href="#">Programming & Softwares</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="ask.html">Ask</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About Us</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <div class="search-box position-relative me-3">
+              <input class="form-control" type="text" placeholder="Search" />
+              <i
+                class="bi bi-search search-icon position-absolute top-50 end-0 translate-middle-y me-3"
+              ></i>
+            </div>
+{% if user.is_authenticated %}
+
+<!-- 👤 USER DROPDOWN -->
+<div class="user-dropdown">
+  <a
+    
+    class="user-toggle d-flex align-items-center text-white text-decoration-none"
+  >
+<span class="avatar">{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}</span>  </a>
+
+  <ul class="user-menu">
+    <li class="user-header">
+      <strong>{{ user.first_name }} {{ user.last_name }}</strong><br>
+      <small>{{ user.email }}</small>
+    </li>
+    <li><a class="user-item" href="{% url 'users:edtech_profile'%}"><i class="fa-solid fa-user"></i> My Profile</a></li>
+    <li><a class="user-item" href="#"><i class="fa-solid fa-award"></i> My Progress</a></li>
+    <li><a class="user-item" href="#"><i class="fa-solid fa-book"></i> My Courses</a></li>
+    <li><a class="user-item" href="#"><i class="fa-solid fa-question"></i> My Questions</a></li>
+    <li><a class="user-item" href="#"><i class="fa-solid fa-lightbulb"></i> My Suggestions</a></li>
+    <li><a class="user-item" href="#"><i class="fa-solid fa-id-card"></i> My Dashboard</a></li>
+
+
+    <li><hr class="user-divider"></li>
+    <li><a class="user-item" href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
+<a class="user-item logout-btn" href="{% url 'users:edtech_logout' %}">
+  <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+</a>  </ul>
+</div>
+
+{% else %}
+
+<!-- 🔐 SIGN IN BUTTON -->
+<a class="btn signin-btn" href="{% url 'users:edtech_login' %}">
+  Sign In
+</a>
+
+{% endif %}
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <nav class="navbar navbar-expand-sm navbar-dark black-navbar second-navbar border-top border-secondary">
+      <div class="container-fluid">
+        <div
+          class="collapse navbar-collapse justify-content-center"
+          id="mynavbar2"
+        >
+          <ul class="navbar-nav text-center small-nav">
+            <ul class="navbar-nav text-center small-nav d-flex flex-row">
+              <li class="nav-item"><a class="nav-link" href="#">Python</a></li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Machine Learning</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Data Science</a>
+              </li>
+            </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- nav finish -->
+{% block index %}{% endblock index %}
+{% block content %}{% endblock content %}
+
+  <!-- footer start -->
+  <footer class="footer mt-0">
+    <div class="container">
+      <div class="row">
+        <!-- Logo / About -->
+        <div class="col-md-4 mb-4">
+          <h4 class="footer-logo">PadhaiMatrix</h4>
+          <p class="footer-text">
+            Learn coding, practice problems, and build your skills with our
+            modern learning platform.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-md-2 mb-4">
+          <h5>Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Tutorials</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">Practice</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="col-md-3 mb-4">
+          <h5>Resources</h5>
+          <ul class="footer-links">
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Docs</a></li>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="col-md-3 mb-4">
+          <h5>Follow Us</h5>
+          <div class="social-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom -->
+      <div class="footer-bottom text-center mt-4">
+        <p>© 2026 PadhaiMatrix. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://kit.fontawesome.com/99a870abbd.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'assets/js/script.js'%}"></script>
+  <script src="{% static 'assets/js/practice.js'%}"></script>
+  <script src="{% static 'assets/js/tutorials.js'%}"></script>
+  <script src="{% static 'assets/js/profile.js'%}"></script>
+
+</body>
+
+</html>

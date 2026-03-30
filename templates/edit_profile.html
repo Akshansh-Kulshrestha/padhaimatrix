@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="edit-container">
+
+  <h2>Edit Profile</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- PROFILE IMAGE -->
+    <div class="img-section">
+      <label>Profile Image</label><br>
+      {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" class="profile-img">
+      {% endif %}
+      <input type="file" name="profile_image">
+    </div>
+
+    <!-- BASIC INFO -->
+    <h3>Basic Information</h3>
+
+    <div class="grid">
+      <div>
+        <label>First Name</label>
+        <input type="text" name="first_name" value="{{ user.first_name }}">
+      </div>
+
+      <div>
+        <label>Last Name</label>
+        <input type="text" name="last_name" value="{{ user.last_name }}">
+      </div>
+
+      <div>
+        <label>Email</label>
+        <input type="email" name="email" value="{{ user.email }}">
+      </div>
+
+      <div>
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ user.phone }}">
+      </div>
+
+      <div>
+        <label>Pincode</label>
+        <input type="text" id="pincode" name="pincode" value="{{ user.pincode }}">
+      </div>
+
+      <div>
+        <label>City</label>
+        <input type="text" id="city" name="city" value="{{ user.city }}">
+      </div>
+
+      <div>
+        <label>State</label>
+        <input type="text" id="state" name="state" value="{{ user.state }}">
+      </div>
+
+      <div>
+        <label>Occupation</label>
+        <input type="text" name="occupation" value="{{ user.occupation }}">
+      </div>
+
+      <div>
+        <label>Institute</label>
+        <input type="text" name="institute" value="{{ user.institute }}">
+      </div>
+    </div>
+
+    <div>
+      <label>About Me</label>
+      <textarea name="about_me">{{ user.about_me }}</textarea>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <h3>Experience</h3>
+
+    <div id="experience-container">
+      {% for exp in experiences %}
+      <div class="exp-block">
+        <label>Company</label>
+        <input type="text" name="company[]" value="{{ exp.company }}">
+
+        <label>Role</label>
+        <input type="text" name="role[]" value="{{ exp.role }}">
+
+        <label>Start Date</label>
+        <input type="date" name="start_date[]" value="{{ exp.start_date|date:'Y-m-d' }}">
+
+        <label>End Date</label>
+        <input type="date" name="end_date[]" value="{{ exp.end_date|date:'Y-m-d' }}">
+        <label>Working Currently</label>
+        <input type="checkbox" name="is_current[]" value="{{ forloop.counter0 }}">
+      </div>
+      {% endfor %}
+    </div>
+
+    <button class="edit-btn" type="button" onclick="addExperience()">+ Add Experience</button>
+
+    <!-- EDUCATION -->
+    <h3>Education</h3>
+
+    <div id="education-container">
+      {% for edu in educations %}
+      <div class="edu-block">
+        <label>Degree</label>
+        <input type="text" name="degree[]" value="{{ edu.degree }}">
+
+        <label>Institute</label>
+        <input type="text" name="edu_institute[]" value="{{ edu.institute }}">
+
+        <label>Year</label>
+        <input type="text" name="year[]" value="{{ edu.start_year }}">
+      </div>
+      {% endfor %}
+    </div>
+
+    <button type="button" class="edit-btn" onclick="addEducation()">+ Add Education</button>
+
+    <br><br>
+
+    <button class="save-btn">Update Profile</button>
+    <a href="{% url 'users:edtech_profile' %}" class="cancel-btn" onclick="return confirmLeave()">Cancel</a>
+    
+    
+</form>
+</div>
+
+{% endblock %}

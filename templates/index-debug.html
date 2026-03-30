@@ -1,0 +1,501 @@
+{%load static%}
+<!doctype html>
+<html data-bs-theme="dark">
+  <head>
+    <title>Padhai Matrix</title>
+    <link rel="icon" href="assets/image/logo2.png" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css'%}" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark black-navbar fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="assets/image/logo2.png" alt="Logo" class="nav-logo" />
+          PadhaiMatrix
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mynavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="tutorials.html"
+                role="button"
+                data-bs-toggle="dropdown"
+                >Tutorials</a
+              >
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="tutorials.html">Link</a></li>
+                <li>
+                  <a class="dropdown-item" href="tutorials-list.html"> link</a>
+                </li>
+                <li><a class="dropdown-item" href="#">A third link</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                >Courses</a
+              >
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="course-list.html">Link</a>
+                </li>
+                <li><a class="dropdown-item" href="#">Another link</a></li>
+                <li><a class="dropdown-item" href="#">A third link</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                >Practice</a
+              >
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="practice.html">Link</a></li>
+                <li>
+                  <a class="dropdown-item" href="practice-list.html"
+                    >Another link</a
+                  >
+                </li>
+                <li><a class="dropdown-item" href="#">A third link</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="ask.html">Ask</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About Us</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <div class="search-box position-relative me-3">
+              <input class="form-control" type="text" placeholder="Search" />
+              <i
+                class="bi bi-search search-icon position-absolute top-50 end-0 translate-middle-y me-3"
+              ></i>
+            </div>
+            <a class="btn signin-btn" href="login.html">Sign In</a>
+            <div class="dropdown1">
+              <a
+                href="#"
+                class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                data-bs-toggle="dropdown"
+              >
+                <img
+                  src="https://via.placeholder.com/35"
+                  alt="profile"
+                  width="35"
+                  height="35"
+                  class="rounded-circle"
+                />
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                <li><a class="dropdown-item" href="#">My Profile</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <nav
+      class="navbar navbar-expand-sm navbar-dark black-navbar second-navbar border-top border-secondary"
+    >
+      <div class="container-fluid">
+        <div
+          class="collapse navbar-collapse justify-content-center"
+          id="mynavbar2"
+        >
+          <ul class="navbar-nav text-center small-nav">
+            <ul class="navbar-nav text-center small-nav d-flex flex-row">
+              <li class="nav-item"><a class="nav-link" href="#">Python</a></li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Machine Learning</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Data Science</a>
+              </li>
+            </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- nav finish -->
+
+    <div class="container-fluid text-center gradient-bg">
+      <div class="text-container">
+        <h1 id="changing-text"></h1>
+      </div>
+      <!-- Search Bar -->
+      <div class="d-flex justify-content-center mt-6">
+        <div class="search-box1 position-relative">
+          <input
+            class="form-control ps-5 py-2"
+            type="text"
+            placeholder=""
+            id="search-input"
+          />
+          <span class="search-placeholder" id="search-placeholder"></span>
+          <i
+            class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"
+          ></i>
+        </div>
+      </div>
+      <div class="container mt-4 text-center">
+        <button class="tag-btn">DSA</button>
+        <button class="tag-btn">Web Dev</button>
+        <button class="tag-btn">Machine Learning</button>
+      </div>
+    </div>
+    <!-- Tutorials Div -->
+    <div class="container-fluid py-5 practice-section">
+      <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-white">Tutorials</h3>
+          <button
+            class="view-btn"
+            onclick="window.location.href = 'tutorials-list.html'"
+          >
+            View All
+          </button>
+        </div>
+
+        <!-- Cards Row -->
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card custom-card">
+              <img src="assets/image/Tutorial Images/DSA.png" class="card-img-top" alt="" />
+              <div class="card-body">
+                <h5 class="card-title">DSA Practice</h5>
+                <p class="card-text">
+                  Solve coding problems and improve logic.
+                </p>
+                <div class="card-actions">
+                  <a href="#" class="details-link">More Details</a>
+                  <a href="#" class="btn card-btn">Start</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card custom-card">
+              <img src="assets/image/Tutorial Images/Webd.png" class="card-img-top" alt="" />
+              <div class="card-body">
+                <h5 class="card-title">Web Development</h5>
+                <p class="card-text">Practice HTML, CSS, JS projects.</p>
+                <div class="card-actions">
+                  <a href="#" class="details-link">More Details</a>
+                  <a href="#" class="btn card-btn">Start</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card custom-card">
+              <img src="assets/image/image 1.JPG" class="card-img-top" alt="" />
+              <div class="card-body">
+                <h5 class="card-title">Web Development</h5>
+                <p class="card-text">Practice HTML, CSS, JS projects.</p>
+                <div class="card-actions">
+                  <a href="#" class="details-link">More Details</a>
+                  <a href="#" class="btn card-btn">Start</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card custom-card">
+              <img src="assets/image/image 1.JPG" class="card-img-top" alt="" />
+              <div class="card-body">
+                <h5 class="card-title">Machine Learning</h5>
+                <p class="card-text">Work on ML datasets and models.</p>
+                <div class="card-actions">
+                  <a href="#" class="details-link">More Details</a>
+                  <a href="#" class="btn card-btn">Start</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Courses Div -->
+    <div class="container-fluid py-5 practice-section">
+      <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-white">Courses</h3>
+          <button
+            class="view-btn"
+            onclick="window.location.href = 'course-list.html'"
+          >
+            View All
+          </button>
+        </div>
+        <div class="container mt-4">
+          <div class="row g-4">
+            <!-- Card 1 -->
+            <div class="col-md-6">
+              <div class="card text-white custom-overlay-card">
+                <img src="assets/image/image 1.JPG" class="card-img" alt="" />
+
+                <div
+                  class="card-img-overlay d-flex justify-content-end align-items-center text-end"
+                >
+                  <div>
+                    <h4 class="card-title">B.Tech</h4>
+                    <p class="card-text">Computer Science Engineering</p>
+                    <div class="card-actions">
+                      <a href="#" class="course-details-link">More Details</a>
+                      <a href="#" class="btn card-btn">Start</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-6">
+              <div class="card text-white custom-overlay-card">
+                <img src="assets/image/image 1.JPG" class="card-img" alt="" />
+
+                <div
+                  class="card-img-overlay d-flex justify-content-end align-items-center text-end"
+                >
+                  <div>
+                    <h4 class="card-title">B.Tech</h4>
+                    <p class="card-text">Information & Technology</p>
+                    <div class="card-actions">
+                      <a href="#" class="course-details-link">More Details</a>
+                      <a href="#" class="btn card-btn">Start</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Practice Div -->
+    <div class="container-fluid py-5 practice-section">
+      <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-white">Practice</h3>
+          <button
+            class="view-btn"
+            onclick="window.location.href = 'practice-list.html'"
+          >
+            View All
+          </button>
+        </div>
+
+        <!-- Cards Row -->
+        <div class="d-flex gap-3 overflow-auto practice-row">
+          <div class="cards-container">
+            <!-- Card -->
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">DSA</span>
+              <!-- Progress Bar -->
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 70%"></div>
+              </div>
+              <span class="progress-text">70% Completed</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">OOPs</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">AI&ML</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">DCCN</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">DAA</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">Java</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">Python</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">C</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">C++</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">.Net</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">R</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="assets/image/image 1.JPG" alt="" />
+              <span class="overlay-text">C#</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Ask Div -->
+    <div class="container-fluid py-5 practice-section">
+      <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="text-white fw-bold text-center my-5">Ask Me Anything</h3>
+        </div>
+        <form action="/action_page.php">
+          <div class="row">
+            <div class="col">
+              <label for="comment">Full Name</label>
+
+              <input
+                type="text"
+                class="form-control mt-3"
+                placeholder="Full Name"
+                name="name"
+              />
+            </div>
+            <div class="col">
+              <label for="comment">Enter Email</label>
+
+              <input
+                type="email"
+                class="form-control mt-3"
+                placeholder="xyz@email.com"
+                name="email"
+              />
+            </div>
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="comment">Your Question:</label>
+            <textarea
+              class="form-control mt-3"
+              rows="5"
+              id="comment"
+              name="text"
+              placeholder="What is a Stack?"
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Ask</button>
+        </form>
+      </div>
+    </div>
+  </body>
+  <!-- footer start -->
+  <footer class="footer mt-0">
+    <div class="container">
+      <div class="row">
+        <!-- Logo / About -->
+        <div class="col-md-4 mb-4">
+          <h4 class="footer-logo">PadhaiMatrix</h4>
+          <p class="footer-text">
+            Learn coding, practice problems, and build your skills with our
+            modern learning platform.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-md-2 mb-4">
+          <h5>Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Tutorials</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">Practice</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="col-md-3 mb-4">
+          <h5>Resources</h5>
+          <ul class="footer-links">
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Docs</a></li>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="col-md-3 mb-4">
+          <h5>Follow Us</h5>
+          <div class="social-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom -->
+      <div class="footer-bottom text-center mt-4">
+        <p>© 2026 PadhaiMatrix. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'assets/js/script.js'%}"></script>
+</html>

@@ -1,0 +1,154 @@
+body {
+  background: #0f1117;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* WRAPPER */
+.profile-wrapper {
+  max-width: 1000px;
+  margin: auto;
+  padding: 30px;
+}
+
+/* HEADER */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.profile-left {
+  display: flex;
+  gap: 15px;
+}
+
+.profile-img {
+  width: 70px;
+  height: 70px;
+  background: #00c853;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.tag {
+  background: #1f2933;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+/* BUTTON */
+.edit-btn {
+  background: #00c853;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+/* GRID */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  background: #161b22;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+/* INFO */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.info-row span {
+  color: #aaa;
+}
+
+/* TIMELINE */
+.timeline {
+  border-left: 2px solid #00c853;
+  padding-left: 10px;
+  margin-top: 10px;
+}
+
+.edit-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  background: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  color: white;
+}
+
+textarea {
+  margin-top: 10px;
+  height: 80px;
+}
+
+.profile-img {
+  width: 80px;
+  border-radius: 50%;
+}
+
+.save-btn {
+  margin-top: 15px;
+  background: #00c853;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.cancel-btn {
+  margin-top: 15px;
+  background: #c80000;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.exp-block, .edu-block {
+  background: #161b22;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 8px;
+}
+
+h3 {
+  margin-top: 25px;
+}

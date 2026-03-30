@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-wrapper">
+
+  <!-- HEADER -->
+  <div class="profile-header">
+
+    <div class="profile-left">
+      <div class="profile-img">
+        {% if user.profile_image %}
+          <img src="{{ user.profile_image.url }}">
+        {% else %}
+          {{ user.first_name|first|upper }}
+        {% endif %}
+      </div>
+
+      <div>
+        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        <p>{{ user.email }}</p>
+        <span class="tag">{{ user.occupation|default:"Student" }}</span>
+      </div>
+    </div>
+
+<a href="{% url 'users:edtech_edit_profile' %}" class="edit-btn">Edit Profile</a>
+  </div>
+
+  <!-- INFO GRID -->
+  <div class="profile-grid">
+
+    <!-- ABOUT -->
+    <div class="card">
+      <h3>About</h3>
+      <p>{{ user.about_me|default:"No description added yet." }}</p>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="card">
+      <h3>Details</h3>
+
+      <div class="info-row">
+        <span>Phone</span>
+        <p>{{ user.phone|default:"-" }}</p>
+      </div>
+
+      <div class="info-row">
+        <span>Location</span>
+        <p>{{ user.city }}, {{ user.state }}</p>
+      </div>
+
+      <div class="info-row">
+        <span>DOB</span>
+        <p>{{ user.dob|default:"-" }}</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="card">
+    <h3>Experience</h3>
+
+    {% for exp in experiences %}
+    <div class="timeline">
+      <h4>{{ exp.role }}</h4>
+      <p>{{ exp.company }}</p>
+      <span>{{ exp.start_date }} - {{ exp.end_date }}</span>
+    </div>
+    {% empty %}
+    <p>No experience added</p>
+    {% endfor %}
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="card">
+    <h3>Education</h3>
+
+    {% for edu in educations %}
+    <div class="timeline">
+      <h4>{{ edu.degree }}</h4>
+      <p>{{ edu.institute }}</p>
+    </div>
+    {% empty %}
+    <p>No education added</p>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}

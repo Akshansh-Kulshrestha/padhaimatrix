@@ -1,0 +1,62 @@
+/* Main toggle */
+.dropdown-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  color: #ccc;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.dropdown-toggle:hover {
+  background: #1a1a1a;
+  color: #00c853;
+}
+
+/* Arrow animation */
+.arrow {
+  transition: transform 0.3s;
+}
+
+.dropdown-item.active .arrow {
+  transform: rotate(90deg);
+}
+
+/* Submenu */
+.submenu {
+  list-style: none;
+  padding-left: 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+/* Open state */
+.dropdown-item.active .submenu {
+  max-height: 300px;
+}
+
+/* Links */
+.submenu li a {
+  display: block;
+  padding: 6px 10px;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.submenu li a:hover {
+  background: #1a1a1a;
+  color: #00c853;
+}
+
+/* Active link */
+.submenu li a.active {
+  background: #00c853;
+  color: black;
+  font-weight: 500;
+}
