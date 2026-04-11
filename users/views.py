@@ -3,6 +3,12 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import *
 import uuid
+from django.contrib.auth.decorators import login_required
+from edtech.core.models import Subject, CourseLevel
+from django.utils import timezone
+from datetime import timedelta
+from django.utils import timezone
+from datetime import timedelta
 
 
 def login_view(request):
@@ -40,11 +46,32 @@ def login_view(request):
 
     return render(request, "login.html")
 
-from django.contrib.auth.decorators import login_required
 
 
 def home(request):
-    return render(request, "index.html")
+    last_week = timezone.now() - timedelta(days=7)
+
+    # 1. Fetch Trending Subjects (Courses)
+    trending_articles = Subject.objects.filter(
+        is_published=True,
+        created_at__gte=last_week,
+        views__gt=10
+    ).order_by("-views", "-created_at")[:3]
+
+    # 2. Fallback: Show most popular of all time if nothing is "new and hot"
+    if not trending_articles.exists():
+        trending_articles = Subject.objects.filter(
+            is_published=True
+        ).order_by("-views")[:3]
+
+    # 3. Add Course Categories for the UI cards
+    courses = CourseLevel.objects.all()
+
+    return render(request, "index.html", {
+        "trending_articles": trending_articles,
+        "courses": courses,
+        "subjects": Subject.objects.filter(is_published=True), # Add this line
+    })
 
 @login_required
 def student_dashboard(request):

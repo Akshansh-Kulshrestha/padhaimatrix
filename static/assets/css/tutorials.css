@@ -215,3 +215,70 @@ position: relative;
 
   position: static; /* ✅ CRITICAL FIX */
 }
+
+.sidebar-menu li a.active-lesson {
+    background-color: #007bff; /* Or your PadhaiMatrix theme color */
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.article-body img {
+    max-width: 100%; /* Ensures your 3D animation screenshots/renders don't overflow */
+    height: auto;
+}
+
+/* Container to center it if needed */
+.completion-wrapper {
+    display: inline-block;
+}
+
+.last-topic-btn {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px; /* Rounded pill shape */
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: default;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    position: relative;
+    overflow: hidden;
+    animation: pulse-green 2s infinite;
+    transition: all 0.3s ease;
+}
+
+.last-topic-btn .icon {
+    font-size: 1.2rem;
+}
+
+/* Suble pulse animation to make it "glow" */
+@keyframes pulse-green {
+    0% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+    }
+}
+
+/* Optional: Add a slight shine effect that moves across the button */
+.last-topic-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+    pointer-events: none;
+}

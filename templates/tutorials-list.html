@@ -1,141 +1,5 @@
-<!doctype html>
-<html data-bs-theme="dark">
-  <head>
-    <title>Padhai Matrix</title>
-    <!-- Latest compiled and minified CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="assets/css/style.css" />
-  </head>
-
-  <body>
-    <nav class="navbar navbar-expand-sm navbar-dark black-navbar fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="javascript:void(0)">PadhaiMatrix</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mynavbar"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="mynavbar">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="tutorials.html"
-                role="button"
-                data-bs-toggle="dropdown"
-                >Tutorials</a
-              >
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="tutorials.html">Link</a></li>
-                <li><a class="dropdown-item" href="#">Another link</a></li>
-                <li><a class="dropdown-item" href="#">A third link</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                >Courses</a
-              >
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Link</a></li>
-                <li><a class="dropdown-item" href="#">Another link</a></li>
-                <li><a class="dropdown-item" href="#">A third link</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                >Practice</a
-              >
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Link</a></li>
-                <li><a class="dropdown-item" href="#">Another link</a></li>
-                <li><a class="dropdown-item" href="#">A third link</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="javascript:void(0)">Ask</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="javascript:void(0)">About Us</a>
-            </li>
-          </ul>
-          <form class="d-flex">
-            <div class="search-box position-relative me-3">
-              <input class="form-control" type="text" placeholder="Search" />
-              <i
-                class="bi bi-search search-icon position-absolute top-50 end-0 translate-middle-y me-3"
-              ></i>
-            </div>
-            <button class="btn signin-btn" onclick="login()">Sign In</button>
-            <div class="dropdown1">
-              <a
-                href="#"
-                class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                data-bs-toggle="dropdown"
-              >
-                <img
-                  src="https://via.placeholder.com/35"
-                  alt="profile"
-                  width="35"
-                  height="35"
-                  class="rounded-circle"
-                />
-              </a>
-
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-                <li><a class="dropdown-item" href="#">My Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
-              </ul>
-            </div>
-          </form>
-        </div>
-      </div>
-    </nav>
-    <nav
-      class="navbar navbar-expand-sm navbar-dark black-navbar second-navbar border-top border-secondary"
-    >
-      <div class="container-fluid">
-        <div
-          class="collapse navbar-collapse justify-content-center"
-          id="mynavbar2"
-        >
-          <ul class="navbar-nav text-center small-nav">
-            <ul class="navbar-nav text-center small-nav d-flex flex-row">
-              <li class="nav-item"><a class="nav-link" href="#">Python</a></li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Machine Learning</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Data Science</a>
-              </li>
-            </ul>
-          </ul>
-        </div>
-      </div>
-    </nav>
+{% extends "base.html" %}
+{% block content %}
        <!-- Tutorials Div -->
     <div class="container-fluid py-5 practice-section">
       <div class="container">
@@ -147,122 +11,28 @@
 
         <!-- Cards Row -->
         <div class="row g-4">
+          {% for art in articles %}
           <div class="col-md-4">
             <div class="card custom-card">
-              <img src="assets/image/image 1.JPG" class="card-img-top" alt="" />
+              {% if art.image %}
+              <img src="{{ art.image.url }}" class="card-img-top" alt="" />
+              {% endif %}
               <div class="card-body">
-                <h5 class="card-title">DSA Practice</h5>
+                <h5 class="card-title">{{ art.name }}</h5>
                 <p class="card-text">
-                  Solve coding problems and improve logic.
+                  {{ art.description }}
                 </p>
                 <div class="card-actions">
                   <a href="#" class="details-link">More Details</a>
-                  <a href="#" class="btn card-btn">Start</a>
+<a href="{% url 'core:article_detail' subject_slug=art.slug topic_slug=art.topics.first.slug %}" class="btn card-btn">
+    Start
+</a>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="col-md-4">
-            <div class="card custom-card">
-              <img src="assets/image/image 1.JPG" class="card-img-top" alt="" />
-              <div class="card-body">
-                <h5 class="card-title">Web Development</h5>
-                <p class="card-text">Practice HTML, CSS, JS projects.</p>
-                <div class="card-actions">
-                  <a href="#" class="details-link">More Details</a>
-                  <a href="#" class="btn card-btn">Start</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card custom-card">
-              <img src="assets/image/image 1.JPG" class="card-img-top" alt="" />
-              <div class="card-body">
-                <h5 class="card-title">Web Development</h5>
-                <p class="card-text">Practice HTML, CSS, JS projects.</p>
-                <div class="card-actions">
-                  <a href="#" class="details-link">More Details</a>
-                  <a href="#" class="btn card-btn">Start</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card custom-card">
-              <img src="assets/image/image 1.JPG" class="card-img-top" alt="" />
-              <div class="card-body">
-                <h5 class="card-title">Machine Learning</h5>
-                <p class="card-text">Work on ML datasets and models.</p>
-                <div class="card-actions">
-                  <a href="#" class="details-link">More Details</a>
-                  <a href="#" class="btn card-btn">Start</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          {% endfor %}  
         </div>
       </div>
     </div>
-    <!-- footer start -->
-  <footer class="footer mt-0">
-    <div class="container">
-      <div class="row">
-        <!-- Logo / About -->
-        <div class="col-md-4 mb-4">
-          <h4 class="footer-logo">PadhaiMatrix</h4>
-          <p class="footer-text">
-            Learn coding, practice problems, and build your skills with our
-            modern learning platform.
-          </p>
-        </div>
-
-        <!-- Quick Links -->
-        <div class="col-md-2 mb-4">
-          <h5>Quick Links</h5>
-          <ul class="footer-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Tutorials</a></li>
-            <li><a href="#">Courses</a></li>
-            <li><a href="#">Practice</a></li>
-          </ul>
-        </div>
-
-        <!-- Resources -->
-        <div class="col-md-3 mb-4">
-          <h5>Resources</h5>
-          <ul class="footer-links">
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Docs</a></li>
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
-
-        <!-- Social -->
-        <div class="col-md-3 mb-4">
-          <h5>Follow Us</h5>
-          <div class="social-icons">
-            <a href="#"><i class="bi bi-facebook"></i></a>
-            <a href="#"><i class="bi bi-twitter"></i></a>
-            <a href="#"><i class="bi bi-linkedin"></i></a>
-            <a href="#"><i class="bi bi-github"></i></a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom -->
-      <div class="footer-bottom text-center mt-4">
-        <p>© 2026 PadhaiMatrix. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-  <!-- Latest compiled JavaScript -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/script.js"></script>
-  <script src="assets/js/tutorials.js"></script>
-
-  </html>
+  {% endblock content %}

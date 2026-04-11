@@ -27,66 +27,46 @@
         <button class="tag-btn">Machine Learning</button>
       </div>
     </div>
-    <!-- Tutorials Div -->
-    <div class="container-fluid py-5 practice-section">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="text-white">Tutorials</h3>
-          <button
-            class="view-btn"
-            onclick="window.location.href = 'tutorials-list.html'"
-          >
-            View All
-          </button>
-        </div>
-
-        <!-- Cards Row -->
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card custom-card">
-              <img src="{% static 'assets/image/Tutorial Images/DSA.png'%}" class="card-img-top" alt="" />
-              <div class="card-body">
-                <h5 class="card-title">DSA Practice</h5>
-                <p class="card-text">
-                  Solve coding problems and improve logic.
-                </p>
-                <div class="card-actions">
-                  <a href="#" class="details-link">More Details</a>
-                  <a href="#" class="btn card-btn">Start</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card custom-card">
-              <img src="{% static 'assets/image/Tutorial Images/Webd.png'%}" class="card-img-top" alt="" />
-              <div class="card-body">
-                <h5 class="card-title">Web Development</h5>
-                <p class="card-text">Practice HTML, CSS, JS projects.</p>
-                <div class="card-actions">
-                  <a href="#" class="details-link">More Details</a>
-                  <a href="#" class="btn card-btn">Start</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card custom-card">
-              <img src="{% static 'assets/image/Tutorial Images/ml.png'%}" class="card-img-top" alt="" />
-              <div class="card-body">
-                <h5 class="card-title">Machine Learning</h5>
-                <p class="card-text">Practice HTML, CSS, JS projects.</p>
-                <div class="card-actions">
-                  <a href="#" class="details-link">More Details</a>
-                  <a href="#" class="btn card-btn">Start</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="container-fluid py-5 practice-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="text-white">Tutorials</h3> <button
+        class="view-btn"
+        onclick="window.location.href = '{% url 'core:article_list'%}'"
+      >
+        View All
+      </button>
     </div>
+
+    <div class="row g-4">
+      {% for article in trending_articles %}
+      <div class="col-md-4">
+        <div class="card custom-card">
+          {% if article.image %}
+          <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.name }}" />
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ article.name }}</h5>
+            
+            <p class="card-text">
+              {{ article.description|truncatechars:100 }}
+            </p>
+            
+            <div class="card-actions">
+              <a href="{% url 'core:article_list' %}?subject={{ article.id }}" class="details-link">More Details</a>
+              
+                <a href="{% url 'core:article_detail' subject_slug=article.slug topic_slug=article.topics.first.slug %}" class="btn card-btn">
+                Start</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center">
+          <p class="text-muted">No trending courses at the moment. Keep learning!</p>
+      </div>
+      {% endfor %} 
+    </div>
+</div>
     <!-- Courses Div -->
     <div class="container-fluid py-5 practice-section">
         <!-- Header -->
