@@ -1,0 +1,133 @@
+    /* 1. Header & Background Context */
+    .notes-header {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d3436 100%);
+        padding: 60px 0;
+        border-bottom: 1px solid #333;
+        margin-bottom: 40px;
+    }
+
+    /* 2. Positioning & Stacking Logic (The Dropdown Fix) */
+    .filter-row {
+        position: relative;
+        z-index: 2000 !important; /* Forces the entire filter section to the front */
+    }
+
+    .results-row {
+        position: relative;
+        z-index: 1; /* Keeps the results below the filter dropdown */
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Specific fix for the filter card to prevent clipping */
+    .filter-glass {
+        overflow: visible !important; 
+        position: relative;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 30px rgba(0, 255, 123, 0.15);
+        border: 1px solid rgba(40, 167, 69, 0.4);
+    }
+
+    /* 3. UI Elements */
+    .search-pill {
+        border-radius: 50px;
+        padding: 12px 25px;
+        background: #111;
+        border: 1px solid #444;
+        color: white;
+    }
+
+    .search-pill:focus {
+        background: #111;
+        border-color: #28a745;
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.2);
+        color: white;
+    }
+
+    .dropdown-menu {
+        z-index: 3000 !important; /* Highest priority */
+        border: 1px solid #444;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+
+    .uni-badge {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #28a745;
+        font-weight: 700;
+    }
+
+    .pdf-btn {
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s;
+    }
+
+    /* Additional Styles for the List View */
+    .note-list-item {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 15px 25px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .note-list-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: #28a745;
+        transform: translateX(8px);
+    }
+
+    .note-icon {
+        width: 45px;
+        height: 45px;
+        background: rgba(220, 53, 69, 0.1);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+    }
+
+    .note-info {
+        flex-grow: 1;
+    }
+
+    .note-meta {
+        padding: 0 20px;
+        color: #888;
+        font-size: 0.9rem;
+        min-width: 150px;
+    }
+
+    .note-action {
+        min-width: 140px;
+        text-align: right;
+    }
+
+    /* Responsive adjustment */
+    @media (max-width: 768px) {
+        .note-list-item {
+            flex-direction: column;
+            text-align: center;
+        }
+        .note-icon { margin: 0 0 10px 0; }
+        .note-meta { padding: 10px 0; }
+        .note-action { width: 100%; }
+    }

@@ -40,6 +40,7 @@ class Subject(BaseEduModel):
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
     views = models.PositiveIntegerField(default=0)
+
 class Topic(BaseEduModel):
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="topics")
@@ -61,3 +62,36 @@ class UserProgress(models.Model):
 
     class Meta:
         unique_together = ('user', 'topic') # Ensures a topic isn't counted twice
+
+class University(BaseEduModel):
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_published = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = "Universities"    
+
+
+class Notes(BaseEduModel):
+
+    uni_name = models.ForeignKey(University, on_delete=models.CASCADE, related_name="notes")
+    pdf_upload = models.FileField(upload_to="notes_pdfs/", blank=True, null=True)
+    branch = models.CharField(max_length=100, blank=True, null=True) 
+    semester = models.IntegerField(choices=[(i, f"Semester {i}") for i in range(1, 9)], blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_published = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = "Notes"
+
+class Software(BaseEduModel):
+
+    download_link = models.URLField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_published = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = "Softwares"

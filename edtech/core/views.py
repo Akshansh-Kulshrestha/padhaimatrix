@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, F
-from .models import CourseLevel, Specialization, Subject, Topic, UserProgress
+from .models import CourseLevel, Specialization, Subject, Topic, UserProgress, University, Notes, Software
 
 
 def article_list(request):
@@ -121,3 +121,47 @@ def ask(request):
         pass
 
     return render(request, "ask.html")
+
+def notes_page(request):
+    # Get all published data
+    universities = University.objects.filter(is_published=True)
+    notes_qs = Notes.objects.filter(is_published=True)
+
+    # 1. Handle University Filtering from Dropdown
+    selected_uni_slug = request.GET.get('university')
+    if selected_uni_slug:
+        notes_qs = notes_qs.filter(uni_name__slug=selected_uni_slug)
+
+    # 2. 🔍 Search Logic (Integrated with filter)
+    query = request.GET.get("q")
+    if query:
+        notes_qs = notes_qs.filter(
+            Q(name__icontains=query) |
+            Q(uni_name__name__icontains=query) |
+            Q(branch__icontains=query)
+        )
+
+    context = {
+        "notes": notes_qs,
+        "universities": universities,
+        "selected_uni": selected_uni_slug, # To keep the dropdown state
+                "subjects": Subject.objects.filter(is_published=True), # Add this line
+
+    }
+    return render(request, "notes.html", context)
+
+def software_list(request):
+    software_qs = Software.objects.filter(is_published=True)
+
+    query = request.GET.get("q")
+    if query:
+        software_qs = software_qs.filter(
+            Q(name__icontains=query) |
+            Q(code__icontains=query)
+        )
+
+    context = {
+        "software_list": software_qs,
+        "subjects": Subject.objects.filter(is_published=True), # Add this line
+    }
+    return render(request, "software_list.html", context)

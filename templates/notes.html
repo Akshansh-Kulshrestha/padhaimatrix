@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/notes.css'%}"/>
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<div class="container-fluid text-center gradient-bg py-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-white mb-3">University Resources</h1>
+        <p class="lead text-muted mx-auto mb-5" style="max-width: 600px;">
+            Access curated semester notes, previous year papers, and branch-specific PDFs for Jaipur's top universities.
+        </p>
+        
+        <div class="row justify-content-center filter-row">
+            <div class="col-lg-10">
+                <div class="glass-card filter-glass p-4">
+                    <form method="GET" action="" class="row g-3">
+                        <div class="col-md-4">
+                            <div class="dropdown">
+                                <button class="btn search-pill w-100 dropdown-toggle text-start" type="button" id="uniSelector" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-bank me-2"></i>
+                                    {% if selected_uni %}{{ selected_uni|title }}{% else %}Select University{% endif %}
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-dark w-100 shadow-lg">
+                                    <li><a class="dropdown-item" href="{% url 'core:notes_page' %}">All Universities</a></li>
+                                    <li><hr class="dropdown-divider border-secondary"></li>
+                                    {% for uni in universities %}
+                                        <li><a class="dropdown-item" href="?university={{ uni.slug }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ uni.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            {% if selected_uni %}
+                                <input type="hidden" name="university" value="{{ selected_uni }}">
+                            {% endif %}
+                            <input type="text" name="q" class="form-control search-pill" placeholder="Search Subject (e.g. Physics, DSA...)" value="{{ request.GET.q|default:'' }}">
+                        </div>
+
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success w-100 search-pill fw-bold">Apply</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid py-5 practice-section">
+    <div class="notes-list-container">
+        {% for note in notes %}
+        <div class="note-list-item">
+            
+            <div class="note-icon">
+                <i class="bi bi-file-earmark-pdf text-danger fs-4"></i>
+            </div>
+
+            <div class="note-info">
+                <h5 class="text-white mb-0">{{ note.name }}</h5>
+                <div class="d-flex align-items-center mt-1">
+                    <span class="uni-badge me-3" style="font-size: 0.7rem;">{{ note.uni_name.name }}</span>
+                    <span class="text-muted small"><i class="bi bi-diagram-3 me-1"></i> {{ note.branch|default:"General" }}</span>
+                </div>
+            </div>
+
+            <div class="note-meta d-none d-md-block">
+                <span><i class="bi bi-calendar3 me-1"></i> {{ note.created_at|date:"M Y" }}</span>
+            </div>
+
+            <div class="note-action">
+                {% if note.pdf_upload %}
+                    <a href="{{ note.pdf_upload.url }}" target="_blank" class="btn btn-outline-success btn-sm pdf-btn px-4">
+                        <i class="bi bi-eye me-2"></i>View
+                    </a>
+                {% else %}
+                    <button class="btn btn-outline-secondary btn-sm pdf-btn px-4" disabled>No File</button>
+                {% endif %}
+            </div>
+
+        </div>
+        {% empty %}
+        <div class="text-center py-5">
+            <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png" width="80" style="filter: invert(1); opacity: 0.2;" class="mb-3">
+            <h4 class="text-white">No Resources Found</h4>
+            <p class="text-muted">Try removing filters or using a broader search term.</p>
+            <a href="{% url 'core:notes_page' %}" class="btn btn-link text-success">Reset Filters</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

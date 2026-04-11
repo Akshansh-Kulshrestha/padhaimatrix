@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CourseLevel, Specialization, Subject, Topic, UserProgress
+from .models import CourseLevel, Specialization, Subject, Topic, UserProgress, University, Notes, Software
 
 
 @admin.register(CourseLevel)
@@ -34,3 +34,22 @@ class UserProgressAdmin(admin.ModelAdmin):
     list_display = ('user', 'topic', 'completed_at')
     list_filter = ('completed_at',)
     search_fields = ('user__username', 'topic__name')
+
+@admin.register(University)
+class UniversityAdmin(admin.ModelAdmin):
+    list_display = ('name', 'code', 'is_published')
+    search_fields = ('name', 'code')
+    prepopulated_fields = {"slug": ("name",)}
+
+@admin.register(Notes)
+class NotesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'uni_name', 'branch', 'semester', 'is_published')
+    list_filter = ('uni_name', 'branch', 'semester')
+    search_fields = ('name', 'uni_name__name', 'branch')
+    prepopulated_fields = {"slug": ("name",)}
+
+@admin.register(Software)
+class SoftwareAdmin(admin.ModelAdmin):
+    list_display = ('name', 'code', 'is_published')
+    search_fields = ('name', 'code')
+    prepopulated_fields = {"slug": ("name",)}

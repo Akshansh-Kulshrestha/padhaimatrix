@@ -51,11 +51,11 @@
                 >Tutorials</a
               >
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="tutorials.html">All Techie</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:article_list' %}">All Techie</a></li>
                 <li>
-                  <a class="dropdown-item" href="tutorials-list.html">University Notes</a>
+                  <a class="dropdown-item" href="{% url 'core:notes_page' %}">University Notes</a>
                 </li>
-                <li><a class="dropdown-item" href="#">Softwares</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:software_list' %}">Softwares</a></li>
               </ul>
             </li>
 <li class="nav-item dropdown">
