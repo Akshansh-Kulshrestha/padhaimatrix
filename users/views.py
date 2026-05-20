@@ -5,6 +5,7 @@ from .models import *
 import uuid
 from django.contrib.auth.decorators import login_required
 from edtech.core.models import Subject, CourseLevel
+from edtech.courses.models import Course, Specialization
 from django.utils import timezone
 from datetime import timedelta
 from django.utils import timezone
@@ -69,7 +70,8 @@ def home(request):
 
     return render(request, "index.html", {
         "trending_articles": trending_articles,
-        "courses": courses,
+        "course": courses,
+        "courses": Course.objects.filter(is_published=True)[:6],  # Show 6 courses on homepage
         "subjects": Subject.objects.filter(is_published=True), # Add this line
     })
 

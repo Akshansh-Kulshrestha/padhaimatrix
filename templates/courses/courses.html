@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="main-layout">
+
+  <div class="sidebar">
+<div class="sidebar-progress">
+  <div class="progress-text">
+    <span>Progress</span>
+    <span id="progress-percent">{{ progress_percent }}%</span>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" style="width: {{ progress_percent }}%;"></div>
+  </div>
+</div>
+    
+    <h5 class="sidebar-title">{{ article.subject.name }}</h5>
+
+    <ul class="sidebar-menu">
+      {% for item in sidebar_articles %}
+      <li>
+        <a href="{% url 'core:article_detail' subject_slug=article.subject.slug topic_slug=item.slug %}"           class="{% if item.slug == article.slug %}active-lesson{% endif %}">
+           {{ item.name }}
+        </a>
+      </li>
+      {% empty %}
+      <li>No Tutorials found.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="content-area">
+    <h2 class="text-white">{{ article.name }}</h2>
+    
+    <div class="article-body text-white">
+      {{ article.content|safe }}
+    </div>
+
+<div class="content-navigation">
+    {% if prev_topic %}
+        <a href="{% url 'core:article_detail' subject_slug=article.subject.slug topic_slug=prev_topic.slug %}" style="text-decoration: none;">
+            <button type="button" class="prev-btn">← Previous</button>
+        </a>
+    {% else %}
+        <button type="button" class="prev-btn" disabled>← Previous</button>
+    {% endif %}
+
+    {% if next_topic %}
+        <a href="{% url 'core:article_detail' subject_slug=article.subject.slug topic_slug=next_topic.slug %}" style="text-decoration: none;">
+            <button type="button" class="next-btn">Next →</button>
+        </a>
+    {% else %}
+<div class="completion-wrapper">
+        <button type="button" class="last-topic-btn">
+            <span class="icon">🎓</span> 
+            <span class="text">Course Completed!</span>
+            <span class="confetti">✨</span>
+        </button>
+    </div>
+    {% endif %}
+</div>
+  </div>
+
+
+  <div class="right-sidebar">
+    <h5>Sponsored</h5>
+    <div class="ad-box">Ad Space 1</div>
+    <div class="ad-box">Ad Space 2</div>
+    <div class="ad-box">Ad Space 3</div>
+  </div>
+
+</div>
+{% endblock content %}

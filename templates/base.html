@@ -58,40 +58,47 @@
                 <li><a class="dropdown-item" href="{% url 'core:software_list' %}">Softwares</a></li>
               </ul>
             </li>
+
 <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-    Courses
-  </a>
+    <a class="nav-link dropdown-toggle" href="#" id="courseDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Courses
+    </a>
+    <ul class="dropdown-menu dropdown-menu-dark shadow" aria-labelledby="courseDropdown">
+        {% for cat in nav_categories %}
+        <li class="dropdown-submenu">
+            <a class="dropdown-item dropdown-toggle d-flex justify-content-between align-items-center" href="#">
+                {{ cat.name }} <i class="bi bi-chevron-right ms-2"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark shadow">
+                
+                {% for course in cat.courses.all %}
+                <li class="{% if course.specializations.exists %}dropdown-submenu{% endif %}">
+                    <a class="dropdown-item d-flex justify-content-between align-items-center" 
+                       href="{% url 'courses:course_detail' course.slug %}">
+                        {{ course.name }}
+                        {% if course.specializations.exists %}<i class="bi bi-chevron-right ms-2"></i>{% endif %}
+                    </a>
+                    
+                    {% if course.specializations.exists %}
+                    <ul class="dropdown-menu dropdown-menu-dark shadow">
+                        {% for spec in course.specializations.all %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'courses:course_player_default' spec.id %}">
+                                {{ spec.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
+                {% endfor %}
 
-  <ul class="dropdown-menu">
-
-    {% for course in nav_courses %}
-      <li class="course-item">
-
-        <!-- Clickable course -->
-        <a href="#" class="dropdown-item course-toggle">
-          {{ course.name }} 
-        </a>
-
-        <!-- Hidden specialization -->
-        <ul class="sub-menu">
-
-          {% for spec in course.specializations.all %}
-            <li>
-              <a class="dropdown-item"
-                 href="{% url 'specialization_detail' spec.id %}">
-                {{ spec.name }}
-              </a>
-            </li>
-          {% endfor %}
-
-        </ul>
-
-      </li>
-    {% endfor %}
-
-  </ul>
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
 </li>
+{% comment %} practice nav {% endcomment %}
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"

@@ -3,7 +3,82 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'assets/css/notes.css'%}"/>
+<style>
+    /* Internal overrides for the deep filter UI */
+    .filter-row {
+        position: relative;
+        z-index: 1050;
+    }
 
+    .search-pill {
+        border-radius: 50px;
+        padding: 10px 20px;
+        background: #111;
+        border: 1px solid #444;
+        color: white;
+        appearance: none; /* Removes default browser arrow for custom look */
+    }
+
+    .search-pill:focus {
+        background: #111;
+        border-color: #28a745;
+        color: white;
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.2);
+    }
+
+    /* List Item Styling */
+    .note-list-item {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 15px 25px;
+        margin-bottom: 12px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+
+    .note-list-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: #28a745;
+        transform: translateX(8px);
+    }
+
+    .note-icon {
+        width: 45px;
+        height: 45px;
+        background: rgba(220, 53, 69, 0.1);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+        flex-shrink: 0;
+    }
+
+    .note-info { flex-grow: 1; }
+    
+    .sem-badge {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        padding: 4px 8px;
+    }
+
+    .note-action {
+        min-width: 120px;
+        text-align: right;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .note-list-item { flex-direction: column; text-align: center; }
+        .note-icon { margin-right: 0; margin-bottom: 15px; }
+        .note-action { width: 100%; margin-top: 15px; }
+        .filter-glass .row > div { margin-bottom: 10px; }
+    }
+</style>
 {% endblock extra_css %}
 
 {% block content %}
@@ -12,38 +87,57 @@
     <div class="container">
         <h1 class="display-4 fw-bold text-white mb-3">University Resources</h1>
         <p class="lead text-muted mx-auto mb-5" style="max-width: 600px;">
-            Access curated semester notes, previous year papers, and branch-specific PDFs for Jaipur's top universities.
+            Access curated semester notes, previous year papers, and branch-specific PDFs for India's top universities.
         </p>
         
         <div class="row justify-content-center filter-row">
-            <div class="col-lg-10">
-                <div class="glass-card filter-glass p-4">
-                    <form method="GET" action="" class="row g-3">
-                        <div class="col-md-4">
-                            <div class="dropdown">
-                                <button class="btn search-pill w-100 dropdown-toggle text-start" type="button" id="uniSelector" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-bank me-2"></i>
-                                    {% if selected_uni %}{{ selected_uni|title }}{% else %}Select University{% endif %}
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-dark w-100 shadow-lg">
-                                    <li><a class="dropdown-item" href="{% url 'core:notes_page' %}">All Universities</a></li>
-                                    <li><hr class="dropdown-divider border-secondary"></li>
-                                    {% for uni in universities %}
-                                        <li><a class="dropdown-item" href="?university={{ uni.slug }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ uni.name }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+            <div class="col-lg-12">
+                <div class="glass-card filter-glass p-4 shadow-lg">
+                    <form method="GET" action="" class="row g-2 align-items-center">
+                        
+                        <div class="col-md-3">
+                            <select name="university" class="form-select search-pill">
+                                <option value="">All Universities</option>
+                                {% for uni in universities %}
+                                    <option value="{{ uni.slug }}" {% if selected_uni == uni.slug %}selected{% endif %}>
+                                        {{ uni.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
                         </div>
 
-                        <div class="col-md-6">
-                            {% if selected_uni %}
-                                <input type="hidden" name="university" value="{{ selected_uni }}">
-                            {% endif %}
-                            <input type="text" name="q" class="form-control search-pill" placeholder="Search Subject (e.g. Physics, DSA...)" value="{{ request.GET.q|default:'' }}">
+                        <div class="col-md-3">
+                            <select name="branch" class="form-select search-pill">
+                                <option value="">All Branches</option>
+                                {% for branch in branches %}
+                                    {% if branch %}
+                                    <option value="{{ branch }}" {% if selected_branch == branch %}selected{% endif %}>
+                                        {{ branch }}
+                                    </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
                         </div>
 
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-success w-100 search-pill fw-bold">Apply</button>
+                            <select name="semester" class="form-select search-pill">
+                                <option value="">Semester</option>
+                                {% for sem in semesters %}
+                                    <option value="{{ sem }}" {% if selected_sem == sem|stringformat:"i" %}selected{% endif %}>
+                                        Sem {{ sem }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <input type="text" name="q" class="form-control search-pill" placeholder="Subject Name..." value="{{ request.GET.q|default:'' }}">
+                        </div>
+
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-success w-100 rounded-pill py-2">
+                                <i class="bi bi-funnel-fill"></i>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -63,33 +157,38 @@
 
             <div class="note-info">
                 <h5 class="text-white mb-0">{{ note.name }}</h5>
-                <div class="d-flex align-items-center mt-1">
-                    <span class="uni-badge me-3" style="font-size: 0.7rem;">{{ note.uni_name.name }}</span>
-                    <span class="text-muted small"><i class="bi bi-diagram-3 me-1"></i> {{ note.branch|default:"General" }}</span>
+                <div class="d-flex flex-wrap align-items-center mt-1">
+                    <span class="uni-badge me-3">{{ note.uni_name.name }}</span>
+                    <span class="text-muted small me-3">
+                        <i class="bi bi-diagram-3 me-1"></i> {{ note.branch|default:"General" }}
+                    </span>
+                    <span class="badge bg-dark text-success border border-success sem-badge">
+                        SEM {{ note.semester|default:"?" }}
+                    </span>
                 </div>
             </div>
 
             <div class="note-meta d-none d-md-block">
-                <span><i class="bi bi-calendar3 me-1"></i> {{ note.created_at|date:"M Y" }}</span>
+                <small><i class="bi bi-clock-history me-1"></i> {{ note.created_at|date:"M d, Y" }}</small>
             </div>
 
             <div class="note-action">
                 {% if note.pdf_upload %}
-                    <a href="{{ note.pdf_upload.url }}" target="_blank" class="btn btn-outline-success btn-sm pdf-btn px-4">
-                        <i class="bi bi-eye me-2"></i>View
+                    <a href="{{ note.pdf_upload.url }}" target="_blank" class="btn btn-success btn-sm rounded-pill px-4 fw-bold">
+                        <i class="bi bi-cloud-arrow-down me-1"></i> View
                     </a>
                 {% else %}
-                    <button class="btn btn-outline-secondary btn-sm pdf-btn px-4" disabled>No File</button>
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill px-4" disabled>No File</button>
                 {% endif %}
             </div>
 
         </div>
         {% empty %}
         <div class="text-center py-5">
-            <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png" width="80" style="filter: invert(1); opacity: 0.2;" class="mb-3">
-            <h4 class="text-white">No Resources Found</h4>
-            <p class="text-muted">Try removing filters or using a broader search term.</p>
-            <a href="{% url 'core:notes_page' %}" class="btn btn-link text-success">Reset Filters</a>
+            <i class="bi bi-folder-x text-muted display-1 opacity-25"></i>
+            <h4 class="text-white mt-3">No Results Found</h4>
+            <p class="text-muted">No notes match your current filter criteria.</p>
+            <a href="{% url 'core:notes_page' %}" class="btn btn-outline-success rounded-pill mt-2">Clear All Filters</a>
         </div>
         {% endfor %}
     </div>

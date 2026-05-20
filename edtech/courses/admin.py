@@ -1,77 +1,69 @@
 from django.contrib import admin
-from django.utils.html import format_html
-from .models import Course, Specialization, Subject, Unit, Topic
+from .models import Specialization, CourseLevel, Course, Semester, Subject, Unit, Topic
 
-
-# 🔥 INLINE (Specializations inside Course)
-class SpecializationInline(admin.TabularInline):
-    model = Specialization
-    extra = 1
-
-
-# 🔥 COURSE ADMIN
-@admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'image_preview')
-    search_fields = ('name',)
-    prepopulated_fields = {"slug": ("name",)}
-    inlines = [SpecializationInline]
-
-    def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" width="60" />', obj.image.url)
-        return "-"
-    image_preview.short_description = "Image"
-
-
-# 🔥 SPECIALIZATION ADMIN
+# 1. Specialization Admin - Standard setup
 @admin.register(Specialization)
 class SpecializationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'course', 'image_preview')
-    list_filter = ('course',)
+    list_display = ('name',)
     search_fields = ('name',)
 
-    def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" width="50" />', obj.image.url)
-        return "-"
+# 2. Course Level Admin
+@admin.register(CourseLevel)
+class CourseLevelAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order')
+    list_editable = ('order',)
 
+# 3. Course Admin - Handles Many-to-Many Specializations
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('name', 'level', 'is_published')
+    list_filter = ('level', 'is_published')
+    search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
+    # Use filter_horizontal for a better UI to pick shared Specializations
+    filter_horizontal = ('specializations',)
 
-# 🔥 SUBJECT ADMIN
+# 4. Semester Admin
+@admin.register(Semester)
+class SemesterAdmin(admin.ModelAdmin):
+    list_display = ('get_course_name', 'number')
+    list_filter = ('course',)
+    
+    def get_course_name(self, obj):
+        return obj.course.name
+    get_course_name.short_description = 'Course'
+
+# 5. Subject Admin - Grouped by Semester and Course
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specialization', 'get_course')
-    list_filter = ('specialization',)
-    search_fields = ('name',)
-
+    list_display = ('name', 'get_semester', 'get_course')
+    list_filter = ('semester__course', 'semester')
+    
+    def get_semester(self, obj):
+        return f"Sem {obj.semester.number}"
+    get_semester.short_description = 'Semester'
+    
     def get_course(self, obj):
-        return obj.specialization.course.name
-    get_course.short_description = "Course"
+        return obj.semester.course.name
+    get_course.short_description = 'Course'
 
-
-# 🔥 UNIT ADMIN
+# 6. Unit Admin
 @admin.register(Unit)
 class UnitAdmin(admin.ModelAdmin):
-    list_display = ('name', 'subject', 'get_specialization')
-    list_filter = ('subject',)
-    search_fields = ('name',)
+    list_display = ('name', 'subject')
+    list_filter = ('subject__semester__course', 'subject')
 
-    def get_specialization(self, obj):
-        return obj.subject.specialization.name
-    get_specialization.short_description = "Specialization"
-
-
-# 🔥 TOPIC ADMIN
+# 7. Topic Admin - The Content Editor
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
     list_display = ('name', 'unit', 'get_subject', 'get_course')
-    list_filter = ('unit',)
-    search_fields = ('name',)
+    list_filter = ('unit__subject__semester__course',)
+    search_fields = ('name', 'content')
 
     def get_subject(self, obj):
         return obj.unit.subject.name
-    get_subject.short_description = "Subject"
+    get_subject.short_description = 'Subject'
 
     def get_course(self, obj):
-        return obj.unit.subject.specialization.course.name
-    get_course.short_description = "Course"
+        return obj.unit.subject.semester.course.name
+    get_course.short_description = 'Course'

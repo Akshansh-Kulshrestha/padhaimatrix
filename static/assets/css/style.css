@@ -759,3 +759,35 @@ body {
   border-bottom: 1px solid #333;
   color: #bbb;
 }
+
+/* Multi-level Dropdown for PadhaiMatrix */
+@media (min-width: 992px) {
+    .dropdown-menu .dropdown-submenu {
+        position: relative;
+    }
+
+    /* Hide submenus by default and position them to the right */
+    .dropdown-menu .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%; 
+        margin-top: -5px;
+        display: none;
+    }
+
+    /* Show the next level on hover */
+    .dropdown-submenu:hover > .dropdown-menu {
+        display: block;
+    }
+}
+
+/* Dark Theme Adjustments */
+.dropdown-menu-dark {
+    background: rgba(15, 15, 15, 0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item:hover {
+    background-color: rgba(40, 167, 69, 0.2) !important;
+    color: #28a745 !important;
+}

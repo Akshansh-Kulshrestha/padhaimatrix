@@ -74,52 +74,45 @@
           <h3 class="text-white">Courses</h3>
           <button
             class="view-btn"
-            onclick="window.location.href = 'course-list.html'"
+            onclick="window.location.href = '{% url 'courses:course_list' %}'"
           >
             View All
           </button>
         </div>
-        <div class=" mt-4">
+
+        <div class="mt-4">
           <div class="row g-4">
-            <!-- Card 1 -->
+            
+            {% for course in courses %}
             <div class="col-md-6">
               <div class="card text-white custom-overlay-card">
-                <img src="{% static 'assets/image/course_image/btechincse.png'%}" class="card-img" alt="" />
+                {% if course.image %}
+                    <img src="{{ course.image.url }}" class="card-img" alt="{{ course.name }}" />
+                {% else %}
+                    <img src="{% static 'assets/image/course_image/default_course.png' %}" class="card-img" alt="Default Image" />
+                {% endif %}
 
-                <div
-                  class="card-img-overlay d-flex justify-content-end align-items-center text-end"
-                >
-                  <div>
-                    <h4 class="card-title">B.Tech</h4>
-                    <p class="card-text">Computer Science Engineering</p>
+                <div class="card-img-overlay d-flex justify-content-end align-items-center text-end">
+                  <div class="overlay-content">
+                    <h4 class="card-title">{{ course.name }}</h4>
+                    <p class="card-text">{{ course.description|truncatechars:80 }}</p>
+                    
                     <div class="card-actions">
                       <a href="#" class="course-details-link">More Details</a>
-                      <a href="#" class="btn card-btn">Start</a>
+                      
+                      <a href="{% url 'courses:course_detail' slug=course.slug %}" class="btn card-btn">
+                        Explore
+                      </a>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- Card 2 -->
-            <div class="col-md-6">
-              <div class="card text-white custom-overlay-card">
-                <img src="assets/image/image 1.JPG" class="card-img" alt="" />
-
-                <div
-                  class="card-img-overlay d-flex justify-content-end align-items-center text-end"
-                >
-                  <div>
-                    <h4 class="card-title">B.Tech</h4>
-                    <p class="card-text">Information & Technology</p>
-                    <div class="card-actions">
-                      <a href="#" class="course-details-link">More Details</a>
-                      <a href="#" class="btn card-btn">Start</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <h5 class="text-muted">New courses are coming soon to PadhaiMatrix!</h5>
             </div>
+            {% endfor %}
           </div>
         </div>
     </div>

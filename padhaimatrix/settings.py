@@ -97,8 +97,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'edtech.courses.context_processors.courses_list',
-                'edtech.courses.context_processors.courses_nav',
+                # 'edtech.courses.context_processors.courses_nav',
+                'edtech.core.context_processors.subject_context',
+
 
             ],
         },
@@ -180,3 +181,6 @@ LOGOUT_REDIRECT_URL = '/'
 # SESSION SETTINGS
 # -----------------------------
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+
+LOGIN_URL = 'users:edtech_login'

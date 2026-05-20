@@ -42,7 +42,7 @@ def article_list(request):
 
     return render(request, "tutorials-list.html", context)
 
-
+@login_required
 def article_detail(request, subject_slug, topic_slug):
     # 1. Fetch the topic that matches the slug AND belongs to the subject with the subject_slug
     topic = get_object_or_404(
@@ -115,6 +115,7 @@ def suggest_article(request):
     }
     return render(request, "articles/suggest_article.html", context)
 
+@login_required
 def ask(request):
     if request.method == "POST":
         # Handle question submission logic here
@@ -122,18 +123,27 @@ def ask(request):
 
     return render(request, "ask.html")
 
+@login_required
 def notes_page(request):
-    # Get all published data
     universities = University.objects.filter(is_published=True)
     notes_qs = Notes.objects.filter(is_published=True)
 
-    # 1. Handle University Filtering from Dropdown
+    # Capture filter parameters
     selected_uni_slug = request.GET.get('university')
+    selected_branch = request.GET.get('branch')
+    selected_sem = request.GET.get('semester')
+    query = request.GET.get("q")
+
+    # 1. Apply Filters
     if selected_uni_slug:
         notes_qs = notes_qs.filter(uni_name__slug=selected_uni_slug)
+    
+    if selected_branch:
+        notes_qs = notes_qs.filter(branch=selected_branch)
+    
+    if selected_sem:
+        notes_qs = notes_qs.filter(semester=selected_sem)
 
-    # 2. 🔍 Search Logic (Integrated with filter)
-    query = request.GET.get("q")
     if query:
         notes_qs = notes_qs.filter(
             Q(name__icontains=query) |
@@ -141,15 +151,24 @@ def notes_page(request):
             Q(branch__icontains=query)
         )
 
+    # Get unique branches and semesters for the dropdowns
+    # We only show branches that actually have notes uploaded
+    available_branches = Notes.objects.filter(is_published=True).values_list('branch', flat=True).distinct()
+
     context = {
         "notes": notes_qs,
         "universities": universities,
-        "selected_uni": selected_uni_slug, # To keep the dropdown state
-                "subjects": Subject.objects.filter(is_published=True), # Add this line
-
+        "branches": available_branches,
+        "semesters": range(1, 9), # Semesters 1 to 8
+        "selected_uni": selected_uni_slug,
+        "selected_branch": selected_branch,
+        "selected_sem": selected_sem,
     }
     return render(request, "notes.html", context)
 
+
+
+@login_required
 def software_list(request):
     software_qs = Software.objects.filter(is_published=True)
 
